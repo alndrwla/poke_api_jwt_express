@@ -28,7 +28,10 @@ router.route('/login')
         return res.status(401).json({message: 'Invalid credentials'})
       }
 
-      const token = jwt.sign({userId: result}, 'secretPassword')
+      let user = usersController.getUserIdFromUserName(req.body.user)
+      console.error(`${user.userId}`);
+      
+      const token = jwt.sign({userId: user.userId}, 'secretPassword')
       res.status(200).json(
         {token: token}
       )

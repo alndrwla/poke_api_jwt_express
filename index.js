@@ -22,7 +22,6 @@ app.use(API + '/auth', authRouters)
 app.use(API + '/teams', teamsRouters)
 
 app.get(API + '/', (req, res) => {
-  console.log(req);
   res.status(200).send("hello world!")
 })
 
