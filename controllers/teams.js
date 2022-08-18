@@ -8,15 +8,15 @@ const getTeamOfUser = (userId) => {
   return teamsDatabase[userId]
 }
 
-const addpokemon = (userId, pokemonName) => {
-  teamsDatabase[userId].push({name: pokemonName})
+const addPokemon = (userId, pokemon) => {
+  teamsDatabase[userId].push(pokemon)
 }
 
 const setteam = (userId, team) => {
   teamsDatabase[userId] = team
 }
 
-exports.addpokemon = addpokemon
+exports.addPokemon = addPokemon
 exports.setteam = setteam
 exports.bootstrapTeam = bootstrapTeam
 exports.getTeamOfUser = getTeamOfUser

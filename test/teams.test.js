@@ -40,4 +40,36 @@ describe('Suiete of test teams', () => {
           })
       })
   })
+
+  it('Should return the pokedex number', (done) => {
+
+    let pokemonName = 'Bulbasaur'
+
+    chai.request(app)
+      .post(API + '/auth/login')
+      .set('content-type', 'application/json')
+      .send({ user: 'wladimir', password: 'password' })
+      .end((err, res) => {
+        let token = res.body.token
+        chai.assert.equal(res.status, 200)
+
+        chai.request(app)
+          .post(API + '/teams/pokemons')
+          .send({name: pokemonName})
+          .set('Authorization', `JWT ${token}`)
+          .end((err, res) => {
+            chai.request(app)
+              .get(API + '/teams')
+              .set('Authorization', `JWT ${token}`)
+              .end((err, res) => {
+                chai.assert.equal(res.status, 200)
+                chai.assert.equal(res.body.trainer, 'wladimir')
+                chai.assert.equal(res.body.team.length, 1)
+                chai.assert.equal(res.body.team[0].name, pokemonName)
+                chai.assert.equal(res.body.team[0].pokedexNumber, 1)
+                done()
+              })
+          })
+      })
+  })
 })
