@@ -13,3 +13,9 @@
 - Delete pokemon: DELETE /team/pokemos/:id
 - Change pokemon: PUT /team
 - System credential# poke_api_jwt_express
+
+```
+npm install
+npm run test
+npm run dev
+```
