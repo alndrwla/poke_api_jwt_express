@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const usersController = require('../controllers/user')
-const teamsController = require('../controllers/teams')
+const usersController = require('../auths/user.controller')
+const teamsController = require('../teams/teams.controller')
 
 chai.use(chaiHttp)
 

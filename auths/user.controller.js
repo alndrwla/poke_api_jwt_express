@@ -1,7 +1,7 @@
 const uuid = require('uuid')
-const crypto = require('../crypto')
-const comparePassword = require('../crypto')
-const teams = require('./teams')
+const crypto = require('../tools/crypto')
+const comparePassword = require('../tools/crypto')
+const teams = require('../teams/teams.controller')
 
 let userDatabase = {}
 

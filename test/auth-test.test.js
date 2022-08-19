@@ -5,7 +5,7 @@ chai.use(chaiHttp)
 
 const app = require('../index').app
 const API = require('../index').API
-const usersController = require('../controllers/user')
+const usersController = require('../auths/user.controller')
 
 before((done) => {
   usersController.registerUser('alexander', 'password')
