@@ -85,6 +85,41 @@ describe('Suiete of test teams', () => {
       })
   })
 
+  it('Should return the delete', (done) => {
+
+    let team = [{ name: 'Charizard' }, { name: 'Blastoise' }, { name: 'Pikachu' }]
+
+    chai.request(app)
+      .post(API + '/auth/login')
+      .set('content-type', 'application/json')
+      .send({ user: 'alexander', password: 'password' })
+      .end((err, res) => {
+        let token = res.body.token
+        chai.assert.equal(res.status, 200)
+
+        chai.request(app)
+          .put(API + '/teams')
+          .send({ team: team })
+          .set('Authorization', `JWT ${token}`)
+          .end((err, res) => {
+            chai.request(app)
+              .delete(API + '/teams/pokemons/1')
+              .set('Authorization', `JWT ${token}`)
+              .end((err, res) => {
+                chai.request(app)
+                  .get(API + '/teams')
+                  .set('Authorization', `JWT ${token}`)
+                  .end((err, res) => {
+                    chai.assert.equal(res.status, 200)
+                    chai.assert.equal(res.body.trainer, 'alexander')
+                    chai.assert.equal(res.body.team.length, team.length -1)
+                    done()
+                  })
+              })
+          })
+      })
+  })
+
 })
 after((done) => {
   usersController.cleanUpUsers()

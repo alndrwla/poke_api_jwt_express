@@ -6,6 +6,13 @@ const cleanUpTeam = () => {
   }
 }
 
+const deletePokemonAt = (userId, index) => {
+  if(teamsDatabase[userId][index]){
+    teamsDatabase[userId].splice(index, 1)
+  }
+
+}
+
 const bootstrapTeam = (userId) => {
   teamsDatabase[userId] = []
 }
@@ -27,3 +34,4 @@ exports.setteam = setteam
 exports.bootstrapTeam = bootstrapTeam
 exports.getTeamOfUser = getTeamOfUser
 exports.cleanUpTeam = cleanUpTeam
+exports.deletePokemonAt = deletePokemonAt
