@@ -3,7 +3,7 @@ const router = express.Router()
 const jwt = require('jsonwebtoken')
 
 //Controllers
-const usersController = require('../auths/user.controller')
+const usersController = require('./user.controller')
 
 router.route('/')
   .get((req, res) => {
