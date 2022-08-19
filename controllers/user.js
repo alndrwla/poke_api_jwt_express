@@ -3,7 +3,11 @@ const crypto = require('../crypto')
 const comparePassword = require('../crypto')
 const teams = require('./teams')
 
-const userDatabase = {}
+let userDatabase = {}
+
+const cleanUpUsers = () => {
+  userDatabase = {}
+}
 
 const registerUser = (userName, password) => {
   let hashedPwd = crypto.hashPasswordSync(password)
@@ -41,7 +45,6 @@ const addUser = (userName, password) => {
 }
 
 const checkUserCredentials = (userName, password, done) => {
-  console.log(`Checking user credentials for ${userName}`);
   
   let user = getUserIdFromUserName(userName)
   if(user){
@@ -56,3 +59,4 @@ exports.checkUserCredentials = checkUserCredentials
 exports.registerUser = registerUser
 exports.getUser = getUser
 exports.getUserIdFromUserName = getUserIdFromUserName
+exports.cleanUpUsers = cleanUpUsers

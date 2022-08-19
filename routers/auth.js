@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken')
 
 //Controllers
 const usersController = require('../controllers/user')
-usersController.registerUser('alexander', 'password')
-usersController.registerUser('wladimir', 'password')
 
 router.route('/')
   .get((req, res) => {
@@ -29,9 +27,7 @@ router.route('/login')
         return res.status(401).json({message: 'Invalid credentials'})
       }
 
-      let user = usersController.getUserIdFromUserName(req.body.user)
-      console.error(`${user.userId}`);
-      
+      let user = usersController.getUserIdFromUserName(req.body.user)      
       const token = jwt.sign({userId: user.userId}, 'secretPassword')
       res.status(200).json(
         {token: token}

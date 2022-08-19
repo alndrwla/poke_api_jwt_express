@@ -5,7 +5,13 @@ chai.use(chaiHttp)
 
 const app = require('../index').app
 const API = require('../index').API
+const usersController = require('../controllers/user')
 
+before((done) => {
+  usersController.registerUser('alexander', 'password')
+  usersController.registerUser('wladimir', 'password')
+  done()
+})
 describe('Suite os test auth', () => {
   it('should return 401 when no jwt available', (done) => {
     chai.request(app)
@@ -45,4 +51,9 @@ describe('Suite os test auth', () => {
     })
   })
 
+})
+
+after((done) => {
+  usersController.cleanUpUsers
+  done()
 })

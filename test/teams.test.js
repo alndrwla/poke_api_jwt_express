@@ -1,12 +1,24 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const usersController = require('../controllers/user')
+const teamsController = require('../controllers/teams')
 
 chai.use(chaiHttp)
 
 const app = require('../index').app
 const API = require('../index').API
 
+before((done) => {
+  usersController.registerUser('alexander', 'password')
+  usersController.registerUser('wladimir', 'password')
+  done()
+})
+afterEach((done) => {
+  teamsController.cleanUpTeam()
+  done()
+})
 describe('Suiete of test teams', () => {
+  
   it('Should return the team of the given user', (done) => {
 
     let team = [{ name: 'Charizard' }, { name: 'Blastoise' }]
@@ -48,7 +60,7 @@ describe('Suiete of test teams', () => {
     chai.request(app)
       .post(API + '/auth/login')
       .set('content-type', 'application/json')
-      .send({ user: 'wladimir', password: 'password' })
+      .send({ user: 'alexander', password: 'password' })
       .end((err, res) => {
         let token = res.body.token
         chai.assert.equal(res.status, 200)
@@ -63,7 +75,7 @@ describe('Suiete of test teams', () => {
               .set('Authorization', `JWT ${token}`)
               .end((err, res) => {
                 chai.assert.equal(res.status, 200)
-                chai.assert.equal(res.body.trainer, 'wladimir')
+                chai.assert.equal(res.body.trainer, 'alexander')
                 chai.assert.equal(res.body.team.length, 1)
                 chai.assert.equal(res.body.team[0].name, pokemonName)
                 chai.assert.equal(res.body.team[0].pokedexNumber, 1)
@@ -72,4 +84,9 @@ describe('Suiete of test teams', () => {
           })
       })
   })
+
+})
+after((done) => {
+  usersController.cleanUpUsers()
+  done()
 })

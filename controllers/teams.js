@@ -1,4 +1,10 @@
-const teamsDatabase = {}
+let teamsDatabase = {}
+
+const cleanUpTeam = () => {
+  for (let user in teamsDatabase){
+    teamsDatabase[user] = []
+  }
+}
 
 const bootstrapTeam = (userId) => {
   teamsDatabase[userId] = []
@@ -20,3 +26,4 @@ exports.addPokemon = addPokemon
 exports.setteam = setteam
 exports.bootstrapTeam = bootstrapTeam
 exports.getTeamOfUser = getTeamOfUser
+exports.cleanUpTeam = cleanUpTeam

@@ -31,7 +31,7 @@ router.route('/pokemons')
     
     axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
     .then(function(response){
-      console.log(response.data.id);
+
       let pokemon = {
         name: pokemonName,
         pokedexNumber: response.data.id
