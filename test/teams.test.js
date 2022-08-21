@@ -21,6 +21,7 @@ describe('Suiete of test teams', () => {
   it('Should return the team of the given user', (done) => {
 
     let team = [{ name: 'Charizard' }, { name: 'Blastoise' }]
+    console.error(`Server`);
 
     chai.request(app)
       .post(API + '/auth/login')
@@ -43,6 +44,10 @@ describe('Suiete of test teams', () => {
               .end((err, res) => {
                 chai.assert.equal(res.status, 200)
                 chai.assert.equal(res.body.trainer, 'alexander')
+                console.error(`Server`);
+                
+                console.log(res.body.team);
+                
                 chai.assert.equal(res.body.team.length, 2)
                 chai.assert.equal(res.body.team[0].name, team[0].name)
                 chai.assert.equal(res.body.team[1].name, team[1].name)

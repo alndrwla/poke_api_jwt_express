@@ -6,15 +6,16 @@ const cleanUpTeam = () => {
       teamsDatabase[user] = []
     }
     resolve()
-
   })
 }
 
 const deletePokemonAt = (userId, index) => {
-  if(teamsDatabase[userId][index]){
-    teamsDatabase[userId].splice(index, 1)
-  }
-
+  return new Promise((resolve, reject) => {
+    if(teamsDatabase[userId][index]){
+      teamsDatabase[userId].splice(index, 1)
+    }
+    resolve()
+  })
 }
 
 const bootstrapTeam = (userId) => {
@@ -30,20 +31,23 @@ const getTeamOfUser = (userId) => {
 const addPokemon = (userId, pokemon) => {
   return new Promise((resolve, reject) => {
     if (teamsDatabase[userId].length == 6) {
-      reject()
+      reject('Already have 6 pokemon')
+    }else{
+      teamsDatabase[userId].push(pokemon)
+      resolve()
     }
-    
-    teamsDatabase[userId].push(pokemon)
+  })
+}
+
+const setTeam = (userId, team) => {
+  return new Promise((resolve, reject) =>{
+    teamsDatabase[userId] = team
     resolve()
   })
 }
 
-const setteam = (userId, team) => {
-  teamsDatabase[userId] = team
-}
-
 exports.addPokemon = addPokemon
-exports.setteam = setteam
+exports.setTeam = setTeam
 exports.bootstrapTeam = bootstrapTeam
 exports.getTeamOfUser = getTeamOfUser
 exports.cleanUpTeam = cleanUpTeam
