@@ -13,9 +13,8 @@ before((done) => {
   usersController.registerUser('wladimir', 'password')
   done()
 })
-afterEach((done) => {
-  teamsController.cleanUpTeam()
-  done()
+afterEach(async () => {
+  await teamsController.cleanUpTeam()
 })
 describe('Suiete of test teams', () => {
   
@@ -115,6 +114,42 @@ describe('Suiete of test teams', () => {
                     chai.assert.equal(res.body.team.length, team.length -1)
                     done()
                   })
+              })
+          })
+      })
+  })
+
+  it('Should nott be able to add pokemon, if you already have 6', (done) => {
+
+    let team = [
+      {name: 'Charizard'},
+      {name: 'Bulbasaur'},
+      {name: 'Pikachu'},
+      {name: 'Charmander'},
+      {name: 'Otro'},
+      {name: 'Bulbasaur'},
+    ]
+
+    chai.request(app)
+      .post(API + '/auth/login')
+      .set('content-type', 'application/json')
+      .send({ user: 'alexander', password: 'password' })
+      .end((err, res) => {
+        let token = res.body.token
+        chai.assert.equal(res.status, 200)
+
+        chai.request(app)
+          .put(API + '/teams')
+          .send({ team: team })
+          .set('Authorization', `JWT ${token}`)
+          .end((err, res) => {
+            chai.request(app)
+              .post(API + '/teams/pokemons')
+              .send({name: 'Vibrava'})
+              .set('Authorization', `JWT ${token}`)
+              .end((err, res) => {
+                chai.assert.equal(res.status, 400)
+                done()
               })
           })
       })
